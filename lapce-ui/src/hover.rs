@@ -298,8 +298,7 @@ impl Widget<LapceTabData> for Hover {
         data: &LapceTabData,
         env: &Env,
     ) -> Size {
-        let width = bc.max().width;
-        let max_width = width
+        let max_width = bc.max().width
             - Hover::STARTING_X
             - env.get(theme::SCROLLBAR_WIDTH)
             - env.get(theme::SCROLLBAR_PAD);
@@ -316,15 +315,21 @@ impl Widget<LapceTabData> for Hover {
             text_metrics.size.height - text_metrics.first_baseline,
         );
 
+        let diagnostic_text_metrics = self.active_diagnostic_layout.layout_metrics();
         let diagnostic_height = if self.active_diagnostic_layout.size().is_empty() {
             0.0
         } else {
-            let diagnostic_text_metrics =
-                self.active_diagnostic_layout.layout_metrics();
-
             diagnostic_text_metrics.size.height
                 + data.config.editor.line_height as f64
         };
+
+        let side_margin =
+            env.get(theme::SCROLLBAR_WIDTH) + env.get(theme::SCROLLBAR_PAD);
+        let width = text_metrics
+            .size
+            .width
+            .max(diagnostic_text_metrics.size.width)
+            + side_margin * 2.0;
 
         Size::new(
             width,
