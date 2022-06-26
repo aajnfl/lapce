@@ -468,6 +468,10 @@ fn add_attribute_for_tag(tag: &Tag, mut attrs: AttributesAdder, config: &Config)
 fn should_add_newline_after_tag(tag: &Tag) -> bool {
     !matches!(
         tag,
-        Tag::Emphasis | Tag::Strong | Tag::Strikethrough | Tag::Link(..)
+        Tag::Emphasis
+            | Tag::Strong
+            | Tag::Strikethrough
+            | Tag::Link(..)
+            | Tag::CodeBlock(..)
     )
 }
